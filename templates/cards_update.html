@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Card</title>
+</head>
+<body>
+<h2>Update Card</h2>
+
+<form method="post" action="/cards/update/{{ card._id }}">
+    <input type="text" name="title" placeholder="Title" value="{{ card.title }}" required />
+    <input type="text" name="desc" placeholder="Description" value="{{ card.description }}" required />
+    <input type="text" name="additional_desc" placeholder="Additional Description" value="{{ card.additional_description }}" />
+    <button type="submit">Update</button>
+</form>
+
+</body>
+</html>

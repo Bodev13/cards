@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Reading Entry</title>
+</head>
+<body>
+  <h2>Your reading:</h2>
+  <ul>
+    {% for card in selected_cards %}
+      <li>{{ card.title }}</li>
+    {% endfor %}
+  </ul>
+
+  <form action="/cards/reading/save" method="POST">
+    <input type="hidden" name="card_ids" value="{{ selected_cards | map(attribute='_id') | join(',') }}">
+    <textarea name="notes" rows="6" cols="50" placeholder="Your notes for the reading"></textarea>
+    <br />
+    <button type="submit">Save update</button>
+  </form>
+</body>
+</html>

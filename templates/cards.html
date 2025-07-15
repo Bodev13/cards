@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Select Cards for Reading</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .form-wrapper {
+      text-align: center;
+    }
+    select {
+      width: 200px;
+      height: 50px;
+      font-size: 16px;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-wrapper">
+    <form id="cardForm" method="POST" action="/cards/reading">
+      <select name="card_ids" id="cardSelect" multiple>
+        {% for card in cards %}
+          <option value="{{ card._id|string }}">{{ card.title }}</option>
+        {% endfor %}
+      </select>
+      <br />
+      <button type="submit">Select Cards</button>
+    </form>
+  </div>
+</body>
+</html>
