@@ -45,23 +45,20 @@ cp example.env .env
 ```
 
 ### 5 Run the application
-Note: If running inside Docker, make sure your app.run() uses host="0.0.0.0" so the app is accessible from outside the container.
+Note: If running inside Docker, make sure your `app.run()` uses `host="0.0.0.0"` so the app is accessible from outside the container.
 
 ```bash
 python app.py
 ```
 
 
-### 6. Update your app.py (if using Docker)
-Make sure your Flask app runs on all interfaces
-
-### 7. Build and run the container with docker-compose
+### 6. Build and run the container with docker-compose
 
 ```bash
 docker-compose up --build
 ```
 
-### 8. Open your browser and go to
+### 7. Open your browser and go to
 ```bash
 http://localhost:5001
 ```
@@ -74,10 +71,10 @@ The workflow file is located at [`.github/workflows/ci-cd.yml`](.github/workflow
 ## What the CI/CD pipeline does:
 
 - Checks out the repository code
-- Sets up Python (version 3.11)
-- Installs dependencies from requirements.txt
-- Runs automated tests using pytest
-- Builds a Docker image for the application
+- Builds Docker images using docker-compose build
+- Runs automated tests inside the test container using docker-compose 
+- If tests pass, brings up the application with docker-compose up -d or pushes Docker images
+- (Optional) Runs further deployment steps
 
 ## Triggering:
 
