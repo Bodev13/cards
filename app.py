@@ -1,3 +1,4 @@
+from os import getenv
 from crypt import methods
 from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, jsonify
@@ -6,7 +7,6 @@ import dotenv
 from bson.objectid import ObjectId
 
 dotenv.load_dotenv()
-from os import getenv
 
 app: Flask = Flask(__name__)
 db_daten = getenv("MONGO_URI", default="mongodb://localhost:27017/cards_db")
@@ -23,12 +23,12 @@ def get_cards():
     cards = list(mongo.db.cards.find())
     return render_template("/cards.html", cards=cards)
 
+
 @app.route("/cards/add_card_form", methods=["GET", "POST"])
 def add_card_form():
     if request.method == "GET":
         print("Request is GET")
         return render_template("/add_card_form.html")
-
 
     elif request.method == "POST":
         print("Anfrage ist post")
@@ -47,6 +47,8 @@ def add_card_form():
         return redirect(url_for('get_cards'))
 
 # f"select title from card where title like '{title_variable}%'
+
+
 @app.get("/cards/<card_id>")
 def update_card(card_id):
     card = mongo.db.cards.find_one({"_id": ObjectId(card_id)})
@@ -83,9 +85,11 @@ def delete_card(card_id):
     mongo.db.cards.delete_one({"_id": ObjectId(card_id)})
     return redirect(url_for('get_cards'))
 
+
 @app.route("/")
 def home():
     return redirect(url_for("get_cards"))
+
 
 tarot_cards = [
     "The Fool", "The Magician", "The High Priestess", "The Empress", "The Emperor",
@@ -131,16 +135,17 @@ def create_cards():
         mongo.db.cards.insert_many(card_titles)
         print(f"Created {len(card_titles)} cards")
 
+
 @app.route("/cards/reading", methods=["POST"])
 def card_reading():
     selected_ids = request.form.getlist("card_ids")
-    selected_cards = list(mongo.db.cards.find({"_id": {"$in": [ObjectId(cid) for cid in selected_ids]}}))
+    selected_cards = list(mongo.db.cards.find(
+        {"_id": {"$in": [ObjectId(cid) for cid in selected_ids]}}))
     return render_template("reading_form.html", selected_cards=selected_cards)
 
 
-#@app.route("/cards/reading/save", methods=["POST"])
-#def save_reading():
-
+# @app.route("/cards/reading/save", methods=["POST"])
+# def save_reading():
 
 
 if __name__ == "__main__":
@@ -148,5 +153,4 @@ if __name__ == "__main__":
         mongo.db.cards.delete_many({})
         print("All cards deleted")
         create_cards()
-    app.run("localhost", port=5001, debug=True)
-
+    app.run("0.0.0.0", port=5001, debug=True)
